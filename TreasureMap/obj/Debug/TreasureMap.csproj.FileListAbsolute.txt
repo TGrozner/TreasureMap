@@ -1,0 +1,6 @@
+d:\users\tgrosner\documents\visual studio 2015\Projects\TreasureMap\TreasureMap\bin\Debug\TreasureMap.exe.config
+d:\users\tgrosner\documents\visual studio 2015\Projects\TreasureMap\TreasureMap\bin\Debug\TreasureMap.exe
+d:\users\tgrosner\documents\visual studio 2015\Projects\TreasureMap\TreasureMap\bin\Debug\TreasureMap.pdb
+d:\users\tgrosner\documents\visual studio 2015\Projects\TreasureMap\TreasureMap\obj\Debug\TreasureMap.csprojResolveAssemblyReference.cache
+d:\users\tgrosner\documents\visual studio 2015\Projects\TreasureMap\TreasureMap\obj\Debug\TreasureMap.exe
+d:\users\tgrosner\documents\visual studio 2015\Projects\TreasureMap\TreasureMap\obj\Debug\TreasureMap.pdb
