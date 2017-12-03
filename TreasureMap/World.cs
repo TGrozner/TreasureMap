@@ -16,7 +16,7 @@ namespace TreasureMap
         {
             var map = new Map();
             var adventurers = new List<Adventurer>();
-            foreach (var splittedLine in fileContent.Select(line => line.Split(new[] {" - "}, StringSplitOptions.None)))
+            foreach (var splittedLine in fileContent.Select(line => line.Split(new[] { " - " }, StringSplitOptions.None)))
             {
                 switch (splittedLine[0])
                 {
@@ -29,7 +29,7 @@ namespace TreasureMap
                         map.Content[int.Parse(splittedLine[1]), int.Parse(splittedLine[2])] = new MountainCell();
                         break;
                     case CellType.Treasure:
-                        map.Content[int.Parse(splittedLine[1]), int.Parse(splittedLine[2])] = new TreasureCell { TreasuresCount = int.Parse(splittedLine[3])};
+                        map.Content[int.Parse(splittedLine[1]), int.Parse(splittedLine[2])] = new TreasureCell { TreasuresCount = int.Parse(splittedLine[3]) };
                         break;
                     case CellType.Adventurer:
                         var coordinates = new Coordinates(int.Parse(splittedLine[2]), int.Parse(splittedLine[3]));
@@ -53,6 +53,59 @@ namespace TreasureMap
                 Map = map,
                 Adventurers = adventurers
             };
+        }
+
+        public string[] GetFileContent()
+        {
+            var specialCells = 0;
+            foreach (var cell in Map.Content)
+            {
+                if (cell is MountainCell || cell is TreasureCell)
+                {
+                    ++specialCells;
+                }
+                else if (cell is TreasureCell)
+                {
+                    var treasureCell = cell as TreasureCell;
+
+                    if (treasureCell.TreasuresCount > 0)
+                        ++specialCells;
+                }
+            }
+
+            var fileContent = new string[specialCells + 1 + Adventurers.Count()];
+
+            fileContent[0] = $"C - {Map.Width} - {Map.Height}";
+            var currentLine = 1;
+
+            for (var i = 0; i < Map.Width; i++)
+            {
+                for (var j = 0; j < Map.Height; j++)
+                {
+                    if (Map.Content[i, j] is MountainCell)
+                    {
+                        fileContent[currentLine] = $"M - {i} - {j}";
+                        ++currentLine;
+                    }
+                    else if (Map.Content[i, j] is TreasureCell)
+                    {
+                        var treasureCell = Map.Content[i, j] as TreasureCell;
+                        if (treasureCell.TreasuresCount != 0)
+                        {
+                            fileContent[currentLine] = $"T - {i} - {j} - {treasureCell.TreasuresCount}";
+                            ++currentLine;
+                        }
+                    }
+                }
+            }
+
+            foreach (var adventurer in Adventurers)
+            {
+                fileContent[currentLine] = $"A - {adventurer.Name} - {adventurer.Coordinates.X} - {adventurer.Coordinates.Y} - {adventurer.Orientation} - {adventurer.TreasuresCount}";
+                ++currentLine;
+            }
+
+            return fileContent;
         }
 
         public World NextTick()

@@ -11,13 +11,15 @@ namespace TreasureMap
     {
         static void Main()
         {
-            var fileContent = File.ReadAllLines(".\\Map.txt");
+            var fileContent = File.ReadAllLines(@".\Map.txt");
             var world = World.Build(fileContent);
             while (world.Adventurers.FirstOrDefault().Moves.Count > 0)
             {
                 world.NextTick();
                 Console.WriteLine(world.ToString());
             }
+            var outputFileContent = world.GetFileContent();
+            File.WriteAllLines(@".\OutputMap.txt", outputFileContent);
             Console.Read();
         }
     }
